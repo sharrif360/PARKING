@@ -1,48 +1,47 @@
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::near_bindgen;
+use near_sdk::{near_bindgen, env};
+
 #[near_bindgen]
 #[derive(Default, BorshDeserialize, BorshSerialize)]
+//first struct
 pub struct Driver {
     name : String,
-    vehicleid :String,
+    vehicle_id :String,
     license : String,
-    driverid: usize,
+    driver_id: usize,
 }
- 
 
 #[near_bindgen]
 #[derive(Default, BorshDeserialize, BorshSerialize)]
 pub struct Parkingslot {
-    locations:Vec<location>,
+    locations: Vec<Driver>,
 }
 #[near_bindgen]
 impl Parkingslot {
-    #[init]
-    pub fn empty_slots() -> self{
-        let locations: Vec<location> = vec::empty();
+    pub fn empty_slots() -> Self{
+        // let locations: Vec<location> = vec::empty();
         Parkingslot{
-            locations
+            locations: Vec::new(),
         }
-        
     }
 
-    pub fn Parkingslot_count(&mut Self { locations }: Self) -> usize {
+    pub fn parkingslot_count(&self) -> usize {
         self.locations.len()
     }
 
     pub fn add_driver(&mut self, name:String,
-     vehicleid:String, license:String,driverid:usize){
+     vehicle_id:String, license:String,driver_id:usize){
         let slot1 = Driver{
             name:name.to_string(),
-            vehicleid:vehicleid.to_string(),
+            vehicle_id:vehicle_id.to_string(),
             license:license.to_string(),
-            driverid:driverid.to_string()
+            driver_id:driver_id,
         };
         self.locations.push(slot1);
         env::log_str("slot available");
     }
 
-    pub fn Available_slots(&mut self) -> &Vec<location>{
+    pub fn available_slots(&self) -> &Vec<Driver>{
         &self.locations
     }
     
@@ -64,8 +63,8 @@ impl Parkingslot {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use near_sdk::test_utils::{get_logs, VMContextBuilder};
-    use near_sdk::{testing_env, AccountId};
+    use near_sdk::test_utils::VMContextBuilder;
+    use near_sdk:: AccountId;
 
     // part of writing unit tests is setting up a mock context
     // provide a `predecessor` here, it'll modify the default context
@@ -81,10 +80,10 @@ mod tests {
         let user: AccountId =AccountId::new_unchecked("masinde.test.net".to_string());
         let _context: VMContextBuilder = get_context(user.clone());
 
-        let mut slots = Parkingslot::empty_slots();
-        slots.add_driver("Naivas".to_string(),"khetias".to_string(),"khetias".to_string(), "khetias".to_String());
+        let mut slots: Parkingslot = Parkingslot::empty_slots();
+        slots.add_driver("Naivas".to_string(),"khetias".to_string(), "khetias".to_string(), 445);
 
-        let counting = slots.Parkingslot_count();
+        let counting: usize = slots.parkingslot_count();
         assert_eq!(counting,1)
     }
 
@@ -96,18 +95,18 @@ mod tests {
 
         let mut slots:Parkingslot = Parkingslot::empty_slots();
 
-        slots.add_slot("sharrif".to_string(),"KDC 146D".to_string(),"3137C23K".to_string(),"38547189".to_String());
-        slots.add_slot("sharrif".to_string(),"KDD 578D".to_string(),"3142K23L".to_string(),"35627828".to_String());
-        slots.add_slot("sharrif".to_string(),"KCB 192C".to_string(),"1568J76H".to_string(),"67358521".to_String());
+        slots.add_driver("sharrif".to_string(),"KDC 146D".to_string(),"3137C23K".to_string(), 38547189);
+        slots.add_driver("sharrif".to_string(),"KDD 578D".to_string(),"3142K23L".to_string(), 35627828);
+        slots.add_driver("sharrif".to_string(),"KCB 192C".to_string(),"1568J76H".to_string(), 67358521);
     
-        let counts = slots.count();
+        let counts:usize = slots.locations.len();
         assert_eq!(counts, 3)
-    
-    
-
 
     }
 
 
     // TESTS HERE
+    
+    //this is an example of a single thread comment
+    /*this is an example of  a multi line comment*/
 }
