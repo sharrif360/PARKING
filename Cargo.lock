@@ -716,6 +716,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "parking_app"
+version = "0.1.0"
+dependencies = [
+ "near-sdk",
+]
+
+[[package]]
 name = "ppv-lite86"
 version = "0.2.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -862,13 +869,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1facec54cb5e0dc08553501fa740091086d0259ad0067e0d4103448e4cb22ed3"
 dependencies = [
  "digest 0.10.3",
-]
-
-[[package]]
-name = "rust-template"
-version = "0.1.0"
-dependencies = [
- "near-sdk",
 ]
 
 [[package]]

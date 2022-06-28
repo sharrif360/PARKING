@@ -90,7 +90,7 @@ mod tests {
 
     #[test]
     fn add_slot() {
-        let user: AccountId = AccountId::new_unchecked("masinde.testet".to_string());
+        let user: AccountId = AccountId::new_unchecked("masinde_sharrif.testnet".to_string());
         let _context: VMContextBuilder = get_context(user.clone());
 
         let mut slots:Parkingslot = Parkingslot::empty_slots();
